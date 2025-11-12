@@ -96,9 +96,8 @@ Structure `MathLibSettings` with fields:
 3. `fft_window` - spectrum calculation window length, integer value
 4. `n_first_sec_skipped` - skipping the first seconds after connecting to the device, integer value
 5. `bipolar_mode` - enabled bipolar mode, boolean value
-6. `squared_spectrum` - mode of calculating spectral values of frequencies. If squared = true then values are calculated as the sum of squares of FFT bins of the spectrum of the interval of the corresponding frequency (e.g. alpha), if squared = false then as the sum of FFT bins. Boolean value
-7. `channels_number` - count channels for multi-channel library mode, integer value
-8. `channel_for_analysis` - in case of multichannel mode: channel by default for computing spectral values and emotional levels, integer value
+6. `channels_number` - count channels for multi-channel library mode, integer value
+7. `channel_for_analysis` - in case of multichannel mode: channel by default for computing spectral values and emotional levels, integer value
 
 `channels_number` and `channel_for_analysis` are not used explicitly for bipolar mode, you can leave the default ones.
 
@@ -120,11 +119,6 @@ Structure `ArtifactDetectSetting` with fields:
 8. `hamming_win_spectrum` - setting the smoothing of the spectrum calculation by Henning, boolean value
 9. `num_wins_for_quality_avg` - number of windows for estimation of signals quality, by default = 100, which, for example, with process_win_freq=25Hz, will be equal to 4 seconds, integer value
 
-Structure `ShortArtifactDetectSetting` with fields:
-1. `ampl_art_detect_win_size` - the length of the sliding window segments for the detection of short-term amplitude artifacts, ms, integer value
-2. `ampl_art_zerod_area` - signal replacement area of the previous non-artefact to the left and right of the extremum point, ms, integer value
-3. `ampl_art_extremum_border` - boundary for the extremum considered to be artifactual, mcV, integer value
-
 Structure `MentalAndSpectralSetting` with fields:
 1. `n_sec_for_instant_estimation` - the number of seconds to calculate the values of mental levels, integer value
 2. `n_sec_for_averaging` - spectrum averaging, integer value
@@ -140,11 +134,9 @@ MathLibSetting mls = new MathLibSetting(samplingFrequency, 25, samplingFrequency
 
 ArtifactDetectSetting ads = new ArtifactDetectSetting(110, 70, 800000, 100, 4, true, true,false,125);
 
-ShortArtifactDetectSetting sads = new ShortArtifactDetectSetting(200,200,25);
-
 MentalAndSpectralSetting mss = new MentalAndSpectralSetting(2,4);
 
-EmotionalMath tMathPtr = new EmotionalMath(mls, ads, sads, mss);
+EmotionalMath tMathPtr = new EmotionalMath(mls, ads, mss);
 ```
 
 ### Optional parameters
@@ -214,14 +206,14 @@ In bipolar mode:
 
 ```java
 RawChannels[] samples = new RawChannels[SAMPLES_COUNT];
-math.pushData(samples);
+math.pushMonopolars(samples);
 math.processDataArr();
 ``` 
 In multy-channel mode:
 
 ```java
 var samples = new RawChannelsArray[SAMPLES_COUNT];
-math.pushDataArr(samples);
+math.pushBipolars(samples);
 math.processDataArr();
 ``` 
 2. Then check calibration status if you need to calibrate values:
