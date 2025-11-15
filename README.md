@@ -8,7 +8,7 @@ The library can work with bipolar channels or with multiple channels processing 
 
 The algorithm processes raw EEG data in Volts iteratively by a sliding window of a given length with a given processing frequency.
 
-The data is added to the library in short fragments by `pushData()` method (bipolar mode) or `pushDataArr()` (multiple channels mode). There is no strict limit for the length of input arrays in these methods, the inner buffer of the library will process it according to a chosen sliding window length and processing frequency. However, it is recommended to have these arrays length <= mathLibSetting.sampling_rate / mathLibSetting.process_win_freq.
+The data is added to the library in short fragments by `pushBipolars()` method (bipolar mode) or `pushMonopolars()` (multiple channels mode). There is no strict limit for the length of input arrays in these methods, the inner buffer of the library will process it according to a chosen sliding window length and processing frequency. However, it is recommended to have these arrays length <= mathLibSetting.sampling_rate / mathLibSetting.process_win_freq.
 
 ### Filtering
 The default filters set is specifically designed to eliminate low frequency components (Delta and partially Theta), because in most cases for mobile neurodevices, it does not represent neural activity, but rather artifacts. In case you are interested in this components, you still can obtain it with usage of internal filters by executing method `setZeroSpectWaves(true, 1, 1, 1, 1, 1)` with coefficient 1 for Delta. 
